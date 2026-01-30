@@ -222,6 +222,41 @@
             }
         });
 
+        <script>
+    const form = document.getElementById('signupForm');
+    
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const userData = {
+            username: document.getElementById('username').value,
+            email: document.getElementById('email').value, // Assure-toi d'avoir ajouté cet input
+            password: document.getElementById('password').value,
+            birthday: `${document.getElementById('year').value}-${document.getElementById('month').value}-${document.getElementById('day').value}`,
+            gender: document.getElementById('genderInput').value
+        };
+
+        try {
+            const response = await fetch('http://127.0.0.1:5000/signup', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(userData)
+            });
+
+            const result = await response.json();
+
+            if (result.success) {
+                alert("Inscription réussie sur Rouflouxi !");
+                // Redirection vers le dashboard
+            } else {
+                alert("Erreur : " + result.message);
+            }
+        } catch (error) {
+            console.error("Erreur de connexion au serveur Python:", error);
+        }
+    });
+</script>
+
         document.getElementById('loginBtn').onclick = () => alert("Ouverture de la page de connexion...");
     </script>
 </body>
