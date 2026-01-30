@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rouflouxi - Joue aux meilleurs jeux créés par la communauté</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a3e 100%);
+            color: white;
+            overflow-x: hidden;
+        }
+
+        /* Header */
+        .header {
+            background: rgba(0,0,0,0.9);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+        }
+
+        .logo {
+            height: 40px;
+            width: auto;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #00d4ff;
+        }
+
+        .auth-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn {
+            padding: 0.7rem 1.5rem;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, #00d4ff, #0099cc);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid #00d4ff;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0,212,255,0.3);
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, white, #00d4ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        /* Games Section */
+        .games-section {
+            padding: 4rem 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .game-card {
+            background: rgba(255,255,255,0.1);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.4s;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .game-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        }
+
+        .game-thumbnail {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: white;
+        }
+
+        .game-info {
+            padding: 1.5rem;
+        }
+
+        .game-title {
+            font-size: 1.4rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .game-stats {
+            display: flex;
+            gap: 1rem;
+            font-size: 0.9rem;
+            color: #00d4ff;
+            margin-top: 1rem;
+        }
+
+        /* Footer */
+        .footer {
+            background: rgba(0,0,0,0.8);
+            padding: 3rem 2rem 1rem;
+            text-align: center;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: #aaa;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .games-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <img src="ton-logo-rouflouxi.png" alt="Rouflouxi" class="logo">
+        <ul class="nav-links">
+            <li><a href="#">Accueil</a></li>
+            <li><a href="#">Jeux</a></li>
+            <li><a href="#">Créer</a></li>
+            <li><a href="#">Développeurs</a></li>
+            <li><a href="#">Support</a></li>
+        </ul>
+        <div class="auth-buttons">
+            <button class="btn btn-secondary">S'inscrire</button>
+            <button class="btn btn-primary">Se connecter</button>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <h1>Bienvenue sur <span style="color: #00d4ff;">Rouflouxi</span> !</h1>
+        <p>Imagine, crée et joue aux meilleurs jeux créés par la communauté.</p>
+        <div>
+            <button class="btn btn-primary" style="font-size: 1.2rem; padding: 1rem 2rem;">
+                Jouer maintenant
+            </button>
+        </div>
+    </section>
+
+    <!-- Games Section -->
+    <section class="games-section">
+        <h2 class="section-title">Jeux populaires</h2>
+        <div class="games-grid">
+            <div class="game-card">
+                <div class="game-thumbnail">🏰 Château d'Aventure</div>
+                <div class="game-info">
+                    <h3 class="game-title">Château d'Aventure</h3>
+                    <p>Explorez des donjons mystérieux et combattez des monstres épiques !</p>
+                    <div class="game-stats">
+                        <span>1.2M joueurs</span>
+                        <span>⭐ 4.8</span>
+                    </div>
+                </div>
+            </div>
+            <div class="game-card">
+                <div class="game-thumbnail">🚀 Espace Infini</div>
+                <div class="game-info">
+                    <h3 class="game-title">Espace Infini</h3>
+                    <p>Voyagez parmi les étoiles dans cette aventure spatiale palpitante.</p>
+                    <div class="game-stats">
+                        <span>950K joueurs</span>
+                        <span>⭐ 4.7</span>
+                    </div>
+                </div>
+            </div>
+            <div class="game-card">
+                <div class="game-thumbnail">⚽ Tournoi Football</div>
+                <div class="game-info">
+                    <h3 class="game-title">Tournoi Football</h3>
+                    <p>Devenez champion du monde dans ce jeu de foot ultra-réaliste !</p>
+                    <div class="game-stats">
+                        <span>2.1M joueurs</span>
+                        <span>⭐ 4.9</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-links">
+            <a href="#">À propos</a>
+            <a href="#">Carrières</a>
+            <a href="#">Marque</a>
+            <a href="#">Publicité</a>
+            <a href="#">Développeurs</a>
+            <a href="#">Support</a>
+            <a href="#">Sécurité</a>
+            <a href="#">Conditions</a>
+            <a href="#">Confidentialité</a>
+        </div>
+        <p>&copy; 2026 Rouflouxi. Tous droits réservés.</p>
+    </footer>
+</body>
+</html>
