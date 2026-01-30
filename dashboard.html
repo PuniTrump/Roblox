@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Rouflouxi - Accueil</title>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { background: #191B1D; color: white; font-family: 'Source Sans Pro', sans-serif; margin: 0; }
+        
+        /* Barre du haut style Roblox */
+        .navbar {
+            background: #232527;
+            padding: 10px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #393B3D;
+        }
+
+        .user-controls { display: flex; align-items: center; gap: 20px; }
+        .coin-balance { background: rgba(0,0,0,0.2); padding: 5px 15px; border-radius: 20px; font-weight: bold; color: #f5f5f5; }
+        .coin-balance span { color: #00A2FF; }
+
+        .main-content { padding: 40px; max-width: 1200px; margin: 0 auto; }
+        .welcome-header { font-size: 32px; margin-bottom: 30px; }
+        
+        /* Avatar et Profil */
+        .profile-section {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            background: #232527;
+            padding: 20px;
+            border-radius: 10px;
+        }
+        .avatar-circle {
+            width: 100px; height: 100px;
+            background: #393B3D;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 40px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="navbar">
+        <div style="font-weight: 900; font-size: 22px;">ROUFLOUXI</div>
+        <div class="user-controls">
+            <div class="coin-balance">🪙 <span id="coinCount">...</span></div>
+            <div id="navUsername" style="font-weight: 600;">Chargement...</div>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <h1 class="welcome-header">Bonjour, <span id="welcomeName">Utilisateur</span> !</h1>
+        
+        <div class="profile-section">
+            <div class="avatar-circle" id="userAvatar">👤</div>
+            <div>
+                <h2 id="displayUsername">...</h2>
+                <p style="color: #adb5bd;">Statut : En ligne sur Rouflouxi</p>
+            </div>
+        </div>
+
+        <h3 style="margin-top: 40px;">Tes Jeux Favoris</h3>
+        <p style="color: #666;">Tu n'as pas encore de jeux favoris. Explore le catalogue !</p>
+    </div>
+
+    <script>
+        // Au chargement de la page, on demande au Python les infos de la session
+        async function loadProfile() {
+            try {
+                const response = await fetch('http://127.0.0.1:5000/get_user_info');
+                const data = await response.json();
+
+                if (data.success) {
+                    document.getElementById('navUsername').innerText = data.username;
+                    document.getElementById('welcomeName').innerText = data.username;
+                    document.getElementById('displayUsername').innerText = data.username;
+                    document.getElementById('coinCount').innerText = data.coins;
+                    
+                    // Petit bonus : change l'emoji selon le genre
+                    if(data.gender === 'female') document.getElementById('userAvatar').innerText = '👩‍🎤';
+                    if(data.gender === 'male') document.getElementById('userAvatar').innerText = '👨‍🚀';
+                } else {
+                    window.location.href = "index.html"; // Redirige si pas connecté
+                }
+            } catch (error) {
+                console.error("Erreur:", error);
+            }
+        }
+
+        loadProfile();
+    </script>
+</body>
+</html>
