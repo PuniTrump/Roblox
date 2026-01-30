@@ -1,46 +1,48 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, session
 from flask_cors import CORS
 import sqlite3
+import os
 
 app = Flask(__name__)
-CORS(app) # Autorise ton HTML à parler à ton Python
+app.secret_key = "votre_cle_secrete_ultra_secure" # Indispensable pour les sessions
+CORS(app, supports_credentials=True)
 
-# Initialisation de la base de données
-def init_db():
+def get_db_connection():
     conn = sqlite3.connect('rouflouxi.db')
-    cursor = conn.cursor()
-    # Table des utilisateurs
-    cursor.execute('''
-        CREATE TABLE IF NOT EXISTS users (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            username TEXT UNIQUE,
-            email TEXT UNIQUE,
-            password TEXT,
-            birthday TEXT,
-            gender TEXT,
-            coins INTEGER DEFAULT 100
-        )
-    ''')
-    conn.commit()
+    conn.row_factory = sqlite3.Row # Permet d'accéder aux colonnes par nom
+    return conn
+
+# Route de Connexion
+@app.route('/login', methods=['POST'])
+def login():
+    data = request.json
+    conn = get_db_connection()
+    user = conn.execute('SELECT * FROM users WHERE email = ? AND password = ?', 
+                        (data['email'], data['password'])).fetchone()
     conn.close()
 
-@app.route('/signup', methods=['POST'])
-def signup():
-    data = request.json
-    try:
-        conn = sqlite3.connect('rouflouxi.db')
-        cursor = conn.cursor()
-        cursor.execute('''
-            INSERT INTO users (username, email, password, birthday, gender)
-            VALUES (?, ?, ?, ?, ?)
-        ''', (data['username'], data['email'], data['password'], data['birthday'], data['gender']))
-        conn.commit()
-        return jsonify({"success": True, "message": "Utilisateur créé !"}), 201
-    except sqlite3.IntegrityError:
-        return jsonify({"success": False, "message": "Nom d'utilisateur ou email déjà pris"}), 400
-    finally:
-        conn.close()
+    if user:
+        session['user_id'] = user['id'] # On connecte l'utilisateur
+        return jsonify({"success": True, "username": user['username']})
+    return jsonify({"success": False, "message": "Identifiants incorrects"}), 401
+
+# Route pour récupérer les infos du compte connecté
+@app.route('/get_user_info', methods=['GET'])
+def get_user_info():
+    if 'user_id' not in session:
+        return jsonify({"success": False, "message": "Non connecté"}), 401
+    
+    conn = get_db_connection()
+    user = conn.execute('SELECT username, coins, gender FROM users WHERE id = ?', 
+                        (session['user_id'],)).fetchone()
+    conn.close()
+    
+    return jsonify({
+        "success": True, 
+        "username": user['username'], 
+        "coins": user['coins'],
+        "gender": user['gender']
+    })
 
 if __name__ == '__main__':
-    init_db()
-    app.run(debug=True, port=5000)
+    app.run(debug=True)
